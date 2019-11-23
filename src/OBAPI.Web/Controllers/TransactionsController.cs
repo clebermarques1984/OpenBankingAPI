@@ -16,7 +16,7 @@ using System.Threading;
 
 namespace OBAPI.Web.Controllers
 {
-	//[Authorize]
+	[Authorize]
 	//[Route("api/[controller]")]
 	public class TransactionsController	: Controller
 	{

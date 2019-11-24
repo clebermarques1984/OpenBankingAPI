@@ -26,19 +26,19 @@ namespace OBAPI.Application.Commands.Credit
 		{
 			try
 			{
-				var account = await read.GetById(request.IdAccount);
-
+				var account = await read.GetByCustomerIdAndNumber(request.UserId, request.AccountNumber);
+				
 				if (account == null)
 					throw new Exception("Account not found");
 
-				var posting = await db.AddPosting(request.IdAccount, request.Amount, request.Description);
+				var posting = await db.AddPosting(account.ID, request.Amount, request.Description);
 
 				uow.Commit();
 
 				await mediator.RaiseEvent(new Notification
 				{
 					IdPosting = posting.ID,
-					IdAccount = posting.AccountID,
+					AccountNumber = account.Number,
 					Amount = posting.Amount,
 					Description = posting.Description,
 					Date = posting.Date
@@ -52,8 +52,6 @@ namespace OBAPI.Application.Commands.Credit
 				result.AddValidation(ex.Message);
 				return result;
 			}
-
-
 		}
 	}
 }

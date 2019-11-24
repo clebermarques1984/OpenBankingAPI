@@ -7,7 +7,8 @@ namespace OBAPI.Application.Commands.Statement
 {
 	public class Request : Validatable, IRequest<Result>
 	{
-		public int IdAccount { get; set; }
+		public int UserId { get; set; }
+		public int AccountNumber { get; set; }
 		public DateTime FromDate { get; set; }
 		public DateTime ToDate { get; set; }
 

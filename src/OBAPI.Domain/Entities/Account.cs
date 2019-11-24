@@ -3,7 +3,8 @@ using System.Linq;
 
 namespace OBAPI.Domain.Entities
 {
-	public class Account
+	public class 
+		Account
 	{
 		public int ID { get; set; }
 		public int Number { get; set; }

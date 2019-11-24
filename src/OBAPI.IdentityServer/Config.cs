@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
 using System.Collections.Generic;
@@ -12,15 +13,28 @@ namespace OBAPI.IdentityServer
 	{
 		public static IEnumerable<IdentityResource> Ids =>
 			new IdentityResource[]
-			{ 
+			{
 				new IdentityResources.OpenId(),
 				new IdentityResources.Profile(),
+				new IdentityResources.Email(),
+				new IdentityResource(
+					name: "account",
+					displayName: "Checking Account Number",
+					claimTypes: new [] { "account_number" }
+				),
 			};
 
 		public static IEnumerable<ApiResource> Apis =>
 			new ApiResource[] 
 			{ 
-				new ApiResource("OBAPI", "Open Banking API")
+				new ApiResource
+				{
+					Name = "OBAPI",
+					DisplayName = "Open Banking API",
+					UserClaims = { "account_number" },
+					Scopes = { new Scope("OBAPI") }
+					
+				}
 			};
 		
 		public static IEnumerable<Client> Clients =>
@@ -40,10 +54,11 @@ namespace OBAPI.IdentityServer
 				new Client
 				{
 					ClientId = "mvc",
+					ClientName = "MVC Client",
 					ClientSecrets = { new Secret("secret".Sha256()) },
 
 					AllowedGrantTypes = GrantTypes.Code,
-					RequireConsent = false,
+					RequireConsent = true,
 					RequirePkce = true,
 				
 					// where to redirect to after login
@@ -56,7 +71,9 @@ namespace OBAPI.IdentityServer
 					{
 						IdentityServerConstants.StandardScopes.OpenId,
 						IdentityServerConstants.StandardScopes.Profile,
-						"OBAPI"
+						IdentityServerConstants.StandardScopes.Email,
+						"account",
+						"OBAPI",
 					},
 
 					AllowOfflineAccess = true

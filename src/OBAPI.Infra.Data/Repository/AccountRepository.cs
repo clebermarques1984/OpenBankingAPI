@@ -1,7 +1,9 @@
 ﻿using OBAPI.Domain.Entities;
 using OBAPI.Domain.Interfaces;
+using OBAPI.Domain.Specifications;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,9 +16,10 @@ namespace OBAPI.Infra.Data.Repository
 		{
 		}
 
-		public async Task<Account> GetById(int id)
+		public async Task<Account> GetByCustomerIdAndNumber(int customerId, int accountNumber)
 		{
-			return await GetByIdAsync(id);
+			var spec = new AccountFilterSpecification(customerId, accountNumber);
+			return (await ListAsync(spec)).SingleOrDefault();
 		}
 	}
 }

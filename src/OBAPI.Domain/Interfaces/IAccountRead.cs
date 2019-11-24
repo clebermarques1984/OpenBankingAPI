@@ -9,6 +9,6 @@ namespace OBAPI.Domain.Interfaces
 {
 	public interface IAccountRead
 	{
-		Task<Account> GetById(int id);
+		Task<Account> GetByCustomerIdAndNumber(int customerId, int accountNumber);
 	}
 }

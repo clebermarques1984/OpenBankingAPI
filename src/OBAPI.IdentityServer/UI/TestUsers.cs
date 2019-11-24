@@ -16,7 +16,7 @@ namespace IdentityServer4.Quickstart.UI
 			new TestUser{SubjectId = "1", Username = "alice", Password = "alice",   
 				Claims = 
 				{
-					new Claim(JwtClaimTypes.Id, "1"),
+					new Claim("account_number", "818181"),
 					new Claim(JwtClaimTypes.Name, "Alice Smith"),
 					new Claim(JwtClaimTypes.GivenName, "Alice"),
 					new Claim(JwtClaimTypes.FamilyName, "Smith"),
@@ -29,7 +29,7 @@ namespace IdentityServer4.Quickstart.UI
 			new TestUser{SubjectId = "2", Username = "bob", Password = "bob", 
 				Claims = 
 				{
-					new Claim(JwtClaimTypes.Id, "2"),
+					new Claim("account_number", "616161"),
 					new Claim(JwtClaimTypes.Name, "Bob Smith"),
 					new Claim(JwtClaimTypes.GivenName, "Bob"),
 					new Claim(JwtClaimTypes.FamilyName, "Smith"),

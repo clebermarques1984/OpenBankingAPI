@@ -5,7 +5,8 @@ using System.Reflection;
 
 namespace OBAPI.Infra.Data
 {
-	public class OBAPIContext : DbContext
+	public class 
+		OBAPIContext : DbContext
 	{
 		public static readonly LoggerFactory _myLoggerFactory =
 			new LoggerFactory(new[] {new Microsoft.Extensions.Logging.Debug.DebugLoggerProvider()});
@@ -55,7 +56,14 @@ namespace OBAPI.Infra.Data
 			{
 				ID = 1,
 				Code = "32791181130",
-				Name = "Customer One",
+				Name = "Alice Smith",
+				BrachID = 2
+			},
+			new Customer
+			{
+				ID = 2,
+				Code = "22691181130",
+				Name = "Bob Smith",
 				BrachID = 2
 			});
 
@@ -65,6 +73,13 @@ namespace OBAPI.Infra.Data
 				Category = Domain.Category.Checking,
 				Number = 818181,
 				CustomerID = 1
+			},
+			new Account
+			{
+				ID = 2,
+				Category = Domain.Category.Checking,
+				Number = 616161,
+				CustomerID = 2
 			});
 
 			builder.Entity<AccountPosting>().HasData(new AccountPosting

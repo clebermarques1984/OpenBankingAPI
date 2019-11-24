@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace OBAPI.Domain.Specifications
 {
-	public class StatementFilterSpecification : BaseSpecification<AccountPosting>
+	public sealed class StatementFilterSpecification : BaseSpecification<AccountPosting>
 	{
 		public StatementFilterSpecification(int idAccount
 											,DateTime fromDate

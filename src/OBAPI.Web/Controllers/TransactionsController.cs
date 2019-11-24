@@ -37,7 +37,8 @@ namespace OBAPI.Web.Controllers
 
 			// retrieve the user info
 			var userId = int.Parse(caller.Claims.SingleOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
-			var statement = new StatementViewModel {  IdAccount = userId, FromDate = from, ToDate = to };
+			var accountNumber = int.Parse(caller.Claims.SingleOrDefault(c => c.Type == "account_number").Value);
+			var statement = new StatementViewModel { UserId = userId,  AccountNumber = accountNumber, FromDate = from, ToDate = to };
 
 			var result = await accountAppServices.GetStatements(statement, CancellationToken.None);
 

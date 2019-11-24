@@ -16,20 +16,27 @@ namespace OBAPI.Application.Commands.Statement
 	{
 		private readonly IMediatorHandler mediator;
 		private readonly IAccountPostingRead db;
+		private readonly IAccountRead read;
 
-		public Handler(IMediatorHandler mediator, IAccountPostingRead db)
+		public Handler(IMediatorHandler mediator, IAccountPostingRead db, IAccountRead read)
 		{
 			this.mediator = mediator;
 			this.db = db;
+			this.read = read;
 		}
 
 		public async Task<Result> Handle(Request request, CancellationToken cancellationToken)
 		{
 			try
 			{
-				var postings = await db.GetStatements(request.IdAccount, request.FromDate, request.ToDate);
+				var account = await read.GetByCustomerIdAndNumber(request.UserId, request.AccountNumber);
 
-				var balance = await db.GetBalance(request.IdAccount, request.FromDate.AddDays(-1));
+				if (account == null)
+					throw new Exception("Account not found");
+
+				var postings = await db.GetStatements(account.ID, request.FromDate, request.ToDate);
+
+				var balance = await db.GetBalance(account.ID, request.FromDate.AddDays(-1));
 
 				postings.Add(balance);
 
@@ -37,7 +44,7 @@ namespace OBAPI.Application.Commands.Statement
 
 				await mediator.RaiseEvent(new Notification
 				{
-					AccountID = request.IdAccount,
+					AccountNumber = request.AccountNumber,
 					StatementCount = result.Count,
 					FromDate = request.FromDate,
 					ToDate = request.ToDate

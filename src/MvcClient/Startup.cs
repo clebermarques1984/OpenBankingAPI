@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace MvcClient
 {
@@ -31,7 +32,12 @@ namespace MvcClient
 					options.ResponseType = "code";
 
 					options.SaveTokens = true;
+					options.GetClaimsFromUserInfoEndpoint = true;
 
+					options.Scope.Add("openid");
+					options.Scope.Add("profile");
+					options.Scope.Add("email");
+					options.Scope.Add("account");
 					options.Scope.Add("OBAPI");
 					options.Scope.Add("offline_access");
 				});
@@ -51,9 +57,10 @@ namespace MvcClient
 			app.UseStaticFiles();
 
 			app.UseRouting();
+			
 			app.UseAuthentication();
-			app.UseAuthorization();
 
+			app.UseAuthorization();
 
 			app.UseEndpoints(endpoints =>
 			{

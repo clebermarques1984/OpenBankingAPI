@@ -53,7 +53,8 @@ namespace OBAPI.Web.Controllers
 			
 			// retrieve the user info
 			var userId = int.Parse(caller.Claims.SingleOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
-			var debit = new DebitViewModel { IdAccount = userId, Amount = amount, Description = description };
+			var accountNumber = int.Parse(caller.Claims.SingleOrDefault(c => c.Type == "account_number").Value);
+			var debit = new DebitViewModel { UserId = userId, AccountNumber = accountNumber, Amount = amount, Description = description };
 
 			var result = await accountAppServices.AddDebit(debit, CancellationToken.None);
 
@@ -68,7 +69,8 @@ namespace OBAPI.Web.Controllers
 
 			// retrieve the user info
 			var userId = int.Parse(caller.Claims.SingleOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
-			var credit = new CreditViewModel { IdAccount = userId, Amount = amount, Description = description };
+			var accountNumber = int.Parse(caller.Claims.SingleOrDefault(c => c.Type == "account_number").Value);
+			var credit = new CreditViewModel { UserId = userId, AccountNumber = accountNumber, Amount = amount, Description = description };
 
 			var result = await accountAppServices.AddCredit(credit, CancellationToken.None);
 

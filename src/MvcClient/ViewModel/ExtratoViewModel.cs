@@ -1,25 +1,44 @@
-﻿using OBAPI.Domain.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace MvcClient.ViewModel
 {
+	[DataContract()]
 	public class ExtratoViewModel
 	{
-		public bool hasValidation { get; set; }
-		public List<string> validations { get; set; }
-		public List<Postings> data { get; private set; }
+		[DataMember()]
+		public bool HasValidation { get; set; }
 
+		[DataMember()]
+		public List<string> Validations { get; set; }
+
+		[DataMember()]
+		public List<Postings> Data { get; private set; }
 	}
 
+	[DataContract()]
 	public class Postings
 	{
-		public int id { get; set; }
-		public string description { get; set; }
-		public DateTime date { get; set; }
-		public decimal amount { get; set; }
-		public int accountID { get; set; }
+		[DataMember()]
+		public int Id { get; set; }
+
+		[DataMember()]
+		public string Description { get; set; }
+
+		[DataMember()]
+		public DateTime Date { get; set; }
+
+		[DataMember()]
+		public decimal Amount { get; set; }
+
+		[DataMember()]
+		public int AccountID { get; set; }
+
+		public string FormatDate
+		{ 
+			get => Date.ToString("dd/MM/yyyy");
+		}
+
 	}
 }

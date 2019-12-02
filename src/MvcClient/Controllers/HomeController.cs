@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MvcClient.Models;
+using MvcClient.ViewModel;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OBAPI.Domain.ViewModels;
@@ -38,14 +39,18 @@ namespace MvcClient.Controllers
 				response.EnsureSuccessStatusCode();
 				// Handle success
 				
+				var json = await response.Content.ReadAsStringAsync();
+
+				var model = JsonConvert.DeserializeObject<ExtratoViewModel>(json);
+
+				return View(model);
 			}
 			catch (HttpRequestException)
 			{
 				// Handle error
+
+				return View(new ExtratoViewModel());
 			}
-			
-			ViewBag.Json = await response.Content.ReadAsStringAsync();
-			return View();
 		}
 
 		public IActionResult Claims()

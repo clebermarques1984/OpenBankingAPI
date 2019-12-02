@@ -1,24 +1,36 @@
-﻿@using Microsoft.AspNetCore.Authentication
-@using OBAPI.Domain.Entities;
+@model MvcClient.ViewModel.ExtratoViewModel
 
-<pre>@ViewBag.Json</pre>
+<h2>Extrato</h2>
 
-<h2>Claims</h2>
-
-<dl>
-	@foreach (var claim in User.Claims)
-	{
-		<dt>@claim.Type</dt>
-		<dd>@claim.Value</dd>
-	}
-</dl>
-
-<h2>Properties</h2>
-
-<dl>
-	@foreach (var prop in (await Context.AuthenticateAsync()).Properties.Items)
-	{
-		<dt>@prop.Key</dt>
-		<dd>@prop.Value</dd>
-	}
-</dl>
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Data.FirstOrDefault().Date)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Data.FirstOrDefault().Description)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Data.FirstOrDefault().Amount)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model.Data)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.FormatDate)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Description)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Amount)
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

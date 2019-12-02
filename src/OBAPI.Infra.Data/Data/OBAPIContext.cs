@@ -5,8 +5,7 @@ using System.Reflection;
 
 namespace OBAPI.Infra.Data
 {
-	public class 
-		OBAPIContext : DbContext
+	public class OBAPIContext : DbContext
 	{
 		public static readonly LoggerFactory _myLoggerFactory =
 			new LoggerFactory(new[] {new Microsoft.Extensions.Logging.Debug.DebugLoggerProvider()});
@@ -16,6 +15,11 @@ namespace OBAPI.Infra.Data
 		public DbSet<Customer> Customers { get; set; }
 		public DbSet<Account> Accounts { get; set; }
 		public DbSet<AccountPosting> AccountPostings { get; set; }
+
+		public OBAPIContext()
+		{
+
+		}
 
 		public OBAPIContext(DbContextOptions<OBAPIContext> options) : base(options)
 		{

@@ -10,6 +10,7 @@ using OBAPI.Infra.Data;
 using OBAPI.Infra.IoC;
 using OBAPI.Web.Extensions;
 using OBAPI.Web.OAuth;
+using System.Reflection;
 
 namespace OBAPI.Web
 {
@@ -25,8 +26,16 @@ namespace OBAPI.Web
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+			var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
 			// Add framework services.
-			services.AddDbContext<OBAPIContext>(options => options.UseInMemoryDatabase("WebApp"));
+			services.AddDbContext<OBAPIContext>(options => options.UseInMemoryDatabase("Memory"));
+			
+			//services.AddDbContext<OBAPIContext>(options => 
+			//	options.UseSqlServer(connectionString, sql => 
+			//		sql.MigrationsAssembly(migrationsAssembly)));
 
 			services.AddControllers();
 

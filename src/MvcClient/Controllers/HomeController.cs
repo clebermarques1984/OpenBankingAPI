@@ -27,7 +27,7 @@ namespace MvcClient.Controllers
 		public async Task<IActionResult> Index()
 		{
 			var token = await HttpContext.GetTokenAsync("access_token");
-			var toDate = System.DateTime.UtcNow;
+			var toDate = System.DateTime.UtcNow.AddDays(1);
 			var fromDate = toDate.AddDays(-14);
 
 			var client = new HttpClient();
